@@ -11,7 +11,7 @@ import SwiftUI
 struct VitatoApp: App {
     var body: some Scene {
         WindowGroup {
-            ARContentView()
+            HomeView()
         }
     }
 }
