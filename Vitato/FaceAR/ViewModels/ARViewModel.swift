@@ -5,7 +5,6 @@
 //  Created by Romario Marcal on 14/06/25.
 //
 
-// ViewModels/ARViewModel.swift
 import SwiftUI
 import ARKit
 
@@ -15,11 +14,11 @@ class ARViewModel: ObservableObject {
     @Published var tattooOpacity: CGFloat = 0.9
     @Published var selectedPlacement: TattooPlacement = .cheek
     @Published var showTattooSelection = false
-    
-    
+    @Published var isCapturingPhoto = false
+    @Published var capturedImage: UIImage?
     
     let arSessionManager = ARSessionManager()
-    
+     
     var arView: ARSCNView {
         arSessionManager.arView
     }
@@ -62,6 +61,15 @@ class ARViewModel: ObservableObject {
         arSessionManager.placement = placement
         arSessionManager.updateAllTattoos()
     }
+    
+    func capturePhoto() {
+        isCapturingPhoto = true
+        
+        let snapshot = arView.snapshot()
+        capturedImage = snapshot
+        isCapturingPhoto = false
+        
+        // You could save the image to the photo library here if needed
+        UIImageWriteToSavedPhotosAlbum(snapshot, nil, nil, nil)
+    }
 }
-
-// ViewModels/TattooSelectionViewModel.swift (same as previous)
