@@ -9,15 +9,15 @@ import SwiftUI
 import ARKit
 
 struct BodyAnchorARViewRepresentable: UIViewRepresentable {
-    @ObservedObject var viewModel: BodyAnchorARViewModel
-    
-    func makeUIView(context: Context) -> ARSCNView {
-        let arView = viewModel.arSessionManager.arView
+    var frame: CGRect = UIScreen.main.bounds
+    var onAnchorDetectionChange: ((Bool) -> Void)?
+ 
+    func makeUIView(context: Context) -> BodyAnchorARViewModel {
+        let arView = BodyAnchorARViewModel(frame: frame)
+        arView.onAnchorDetectionChange = onAnchorDetectionChange
         return arView
     }
     
-    func updateUIView(_ uiView: ARSCNView, context: Context) {
-        // Updates handled by ARSessionManager
-    }
+    func updateUIView(_ uiView: BodyAnchorARViewModel, context: Context) { }
 }
 
