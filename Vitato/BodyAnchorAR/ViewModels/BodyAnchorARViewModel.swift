@@ -38,7 +38,6 @@ class BodyAnchorARViewModel: ARView {
         let config = ARImageTrackingConfiguration()
         config.trackingImages = referenceImages
         config.maximumNumberOfTrackedImages = 1
-        config.isLightEstimationEnabled = true
         
         session.run(config)
         
@@ -100,42 +99,42 @@ class BodyAnchorARViewModel: ARView {
     }
     
     private func handlePlaceTattoo() {
-        guard let tattooImage = UIImage(named: "tattoo1") else {
-            print("No tattoo image selected")
-            return
-        }
-        
-        guard let imageAnchor = session.currentFrame?.anchors.first(where: { $0 is ARImageAnchor }) as? ARImageAnchor else {
-            print("No ARImageAnchor detected. Please point camera at the anchor image.")
-            return
-        }
-        
-        scene.anchors.removeAll()
-        
-        let physicalWidth = Float(imageAnchor.referenceImage.physicalSize.width)
-        let physicalHeight = Float(imageAnchor.referenceImage.physicalSize.height)
-        
-        let plane = MeshResource.generatePlane(width: physicalWidth, height: physicalHeight)
-        
-        if let cgImage = tattooImage.cgImage,
-           let texture = try? TextureResource.init(image: cgImage, options: .init(semantic: .color)) {
-            
-            var material = SimpleMaterial()
-            material.baseColor = .texture(texture)
-            
-            let entity = ModelEntity(mesh: plane, materials: [material])
-            
-            entity.orientation = simd_quatf(angle: -.pi / 2, axis: [1, 0, 0])
-            
-            entity.position = SIMD3(0, 0.001, 0)
-            
-            let anchor = AnchorEntity(anchor: imageAnchor)
-            
-            anchor.addChild(entity)
-            scene.addAnchor(anchor)
-        } else {
-            print("Failed to create texture from tattoo image")
-        }
+//        guard let tattooImage = UIImage(named: "tattoo1") else {
+//            print("No tattoo image selected")
+//            return
+//        }
+//        
+//        guard let imageAnchor = session.currentFrame?.anchors.first(where: { $0 is ARImageAnchor }) as? ARImageAnchor else {
+//            print("No ARImageAnchor detected. Please point camera at the anchor image.")
+//            return
+//        }
+//        
+//        scene.anchors.removeAll()
+//        
+//        let physicalWidth = Float(imageAnchor.referenceImage.physicalSize.width)
+//        let physicalHeight = Float(imageAnchor.referenceImage.physicalSize.height)
+//        
+//        let plane = MeshResource.generatePlane(width: physicalWidth, height: physicalHeight)
+//        
+//        if let cgImage = tattooImage.cgImage,
+//           let texture = try? TextureResource.init(image: cgImage, options: .init(semantic: .color)) {
+//            
+//            var material = SimpleMaterial()
+//            material.baseColor = .texture(texture)
+//            
+//            let entity = ModelEntity(mesh: plane, materials: [material])
+//            
+//            entity.orientation = simd_quatf(angle: -.pi / 2, axis: [1, 0, 0])
+//            
+//            entity.position = SIMD3(0, 0.001, 0)
+//            
+//            let anchor = AnchorEntity(anchor: imageAnchor)
+//            
+//            anchor.addChild(entity)
+//            scene.addAnchor(anchor)
+//        } else {
+//            print("Failed to create texture from tattoo image")
+//        }
     }
 }
 
